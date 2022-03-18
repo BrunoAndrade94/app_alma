@@ -4,19 +4,27 @@ const ip = "192.168.252.47";
 // IP CASA
 // const ip = '10.10.0.254'
 
-const porta = 3033;
+// PORTA
+const porta = 3333;
+
 const app = require("express")();
 const consign = require("consign");
-// const bancoDeDados = require()
+const bancoDeDados = require("./config/db/bancoDeDados.js");
 
 const mongoose = require("mongoose");
-// require()
+require("./config/db/mongodb.js");
 
-// app.db = bancoDeDados
+app.db = bancoDeDados;
 app.mongoose = mongoose;
 
-consign().then("./config/middlewares.js").into(app);
+consign()
+	.include("./config/admin/passaporte.js")
+	.then("./config/middlewares.js")
+	.then("./api")
+	.then("./config")
+	.then("./config/routes")
+	.into(app);
 
-app.listen(porta, ip, () => {
+app.listen(porta, () => {
 	console.log(`--IP:    ${ip}\n--PORTA: ${porta}`);
 });
