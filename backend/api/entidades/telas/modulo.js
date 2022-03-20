@@ -10,10 +10,10 @@ module.exports = (app) => {
 			console.log(modulo);
 			v.existeOuErro(modulo.nome, n.nomeNaoInformado);
 
-			if (modulo.maeId !== undefined) {
+			if (modulo.idMae !== undefined) {
 				const verificarModuloExiste = await app
 					.db(tabela.modulos)
-					.where({ id: modulo.maeId })
+					.where({ id: modulo.idMae })
 					.whereNull(coluna.removidoEm);
 				v.existeOuErro(verificarModuloExiste, n.moduloNaoEncontrado);
 			}
@@ -36,7 +36,7 @@ module.exports = (app) => {
 			// SEM USO
 			const verificarVinculoComSubModulos = await app
 				.db(tabela.modulos)
-				.where({ maeId: modulo.id });
+				.where({ idMae: modulo.id });
 			v.naoExisteOuErro(
 				verificarVinculoComSubModulos,
 				n.moduloPossuiSubModulos
@@ -57,7 +57,7 @@ module.exports = (app) => {
 
 	const obter = (req, res) => {
 		app.db(tabela.modulos)
-			.select(coluna.id, coluna.nome, coluna.maeId)
+			.select(coluna.id, coluna.nome, coluna.idMae)
 			.whereNull(coluna.removidoEm)
 			.then((modulos) => res.json(comCaminho(modulos)))
 			.catch((erro) => res.status(500).send(erro));
@@ -67,7 +67,7 @@ module.exports = (app) => {
 		try {
 			v.numeroOuErro(req.params.id, n.idInvalido);
 			app.db(tabela.modulos)
-				.select(coluna.id, coluna.nome, coluna.maeId)
+				.select(coluna.id, coluna.nome, coluna.idMae)
 				.where({ id: req.params.id })
 				.whereNull(coluna.removidoEm)
 				.then((modulo) => res.json(comCaminho(modulo)))
@@ -88,7 +88,7 @@ module.exports = (app) => {
 
 			// const obterIdMae = app
 			// 	.db(tabela.modulos)
-			// 	.select(coluna.maeId)
+			// 	.select(coluna.idMae)
 			// 	.where({ id: req.params.id })
 			// 	.first();
 			// const verificarVinculoComSubModulos = app
@@ -101,7 +101,7 @@ module.exports = (app) => {
 
 			const idMae = app
 				.db(tabela.modulos)
-				.select(coluna.maeId)
+				.select(coluna.idMae)
 				.where({ id: req.params.id })
 				.first();
 			console.log(idMae);
@@ -118,18 +118,18 @@ module.exports = (app) => {
 	};
 
 	const comCaminho = (modulos) => {
-		const obterMae = (modulos, maeId) => {
-			const mae = modulos.filter((mae) => mae.id === maeId);
+		const obterMae = (modulos, idMae) => {
+			const mae = modulos.filter((mae) => mae.id === idMae);
 			return mae.length ? mae[0] : null;
 		};
 
 		const modulosComCaminho = modulos.map((modulo) => {
 			let caminho = modulo.nome;
-			let mae = obterMae(modulos, modulo.maeId);
+			let mae = obterMae(modulos, modulo.idMae);
 
 			while (mae) {
 				caminho = `${mae.nome} >> ${caminho}`;
-				mae = obterMae(modulos, mae.maeId);
+				mae = obterMae(modulos, mae.idMae);
 			}
 			return { ...modulo, caminho };
 		});
@@ -152,7 +152,7 @@ module.exports = (app) => {
 
 			const verificarSubModulos = await app
 				.db(tabela.modulos)
-				.where({ maeId: modulo.id })
+				.where({ idMae: modulo.id })
 				.whereNull(coluna.removidoEm);
 			v.naoExisteOuErro(verificarSubModulos, n.moduloPossuiSubModulos);
 
@@ -196,9 +196,9 @@ module.exports = (app) => {
 	};
 
 	const paraArvore = (modulos, arvore) => {
-		if (!arvore) arvore = modulos.filter((modulo) => !modulo.maeId);
+		if (!arvore) arvore = modulos.filter((modulo) => !modulo.idMae);
 		arvore = arvore.map((mae) => {
-			const seForFilhe = (no) => no.maeId == mae.id;
+			const seForFilhe = (no) => no.idMae == mae.id;
 			mae.children = paraArvore(modulos, modulos.filter(seForFilhe));
 			return mae;
 		});
@@ -207,7 +207,7 @@ module.exports = (app) => {
 
 	const obterArvore = (req, res) => {
 		app.db(tabela.modulos)
-			.select(coluna.id, coluna.nome, coluna.maeId)
+			.select(coluna.id, coluna.nome, coluna.idMae)
 			// .orderBy(coluna.nome)
 			.whereNull(coluna.removidoEm)
 			.then((modulos) => res.json(paraArvore(modulos)))

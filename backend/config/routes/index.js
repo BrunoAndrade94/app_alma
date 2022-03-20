@@ -75,43 +75,43 @@ module.exports = (app) => {
 	// //========================
 	// // ROTAS UNIDADES ========
 	// //========================
-	// app.route("/unidade").post(app.api.entidades.unidade.obterPorParametro);
+	app.route("/unidade").post(app.api.entidades.unidade.obterPorParametro);
 
-	// app.route("/unidades")
-	// 	.post(app.api.entidades.unidade.incluir)
-	// 	.get(app.api.entidades.unidade.obter);
+	app.route("/unidades")
+		.post(app.api.entidades.unidade.incluir)
+		.get(app.api.entidades.unidade.obter);
 
-	// app.route("/unidades/:id")
-	// 	.put(app.api.entidades.unidade.atualizar)
-	// 	.get(app.api.entidades.unidade.obterPorId)
-	// 	.delete(app.api.entidades.unidade.remover);
+	app.route("/unidades/:id")
+		.put(app.api.entidades.unidade.atualizar)
+		.get(app.api.entidades.unidade.obterPorId)
+		.delete(app.api.entidades.unidade.remover);
 
 	// //========================
 	// // ROTAS MÓDULOS =========
 	// //========================
-	// app.route("/modulos")
-	// 	.post(app.api.entidades.telas.modulo.incluir)
-	// 	.get(app.api.entidades.telas.modulo.obter);
+	app.route("/modulos")
+		.post(app.api.entidades.telas.modulo.incluir)
+		.get(app.api.entidades.telas.modulo.obter);
 
-	// app.route("/modulo/:nome").get(app.api.entidades.telas.modulo.obterPorNome);
+	app.route("/modulo/:nome").get(app.api.entidades.telas.modulo.obterPorNome);
 
-	// app.route("/moduloAnterior/:id").get(
-	// 	app.api.entidades.telas.modulo.obterModuloAnterior
-	// );
+	app.route("/moduloAnterior/:id").get(
+		app.api.entidades.telas.modulo.obterModuloAnterior
+	);
 
-	// app.route("/arvore/modulos")
-	// 	// .all(app.config.admin.passaporte.autenticar())
-	// 	.get(app.api.entidades.telas.modulo.obterArvore);
+	app.route("/arvore/modulos")
+		// .all(app.config.admin.passaporte.autenticar())
+		.get(app.api.entidades.telas.modulo.obterArvore);
 
 	// app.route("/recuperarModulos/:id")
 	// 	// .all(app.config.admin.passaporte.autenticar())
 	// 	.post(app.api.entidades.telas.modulo.recuperarRemovido);
 
-	// app.route("/modulos/:id")
-	// 	// .all(app.config.admin.passaporte.autenticar())
-	// 	.get(app.api.entidades.telas.modulo.obterPorId)
-	// 	.delete(app.api.entidades.telas.modulo.remover)
-	// 	.put(app.api.entidades.telas.modulo.atualizar);
+	app.route("/modulos/:id")
+		// .all(app.config.admin.passaporte.autenticar())
+		.get(app.api.entidades.telas.modulo.obterPorId)
+		.delete(app.api.entidades.telas.modulo.remover)
+		.put(app.api.entidades.telas.modulo.atualizar);
 
 	// // ======================= FUTURAMENTE VAI SAIR, SEM USO PARA TELAS
 	// // ROTAS TELAS ===========

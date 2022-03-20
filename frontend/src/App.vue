@@ -1,32 +1,76 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
-  </div>
+	<div id="app">
+		<Header />
+		<Loading v-if="validandoToken" />
+		<Content />
+		<Footer />
+	</div>
 </template>
 
+<script>
+	import { mapState } from "vuex";
+	import { baseApi, chaveUsuario } from "@/global";
+	import Loading from "./components/pages/Loading.vue";
+	import Header from "./components/pages/Header.vue";
+	import Content from "./components/pages/Content.vue";
+	import Footer from "./components/pages/Footer.vue";
+	export default {
+		components: { Header, Content, Footer, Loading },
+		computed: mapState(["usuario"]),
+		data: function () {
+			return {
+				validandoToken: Boolean,
+			};
+		},
+		methods: {
+			async validarToken() {
+				this.validandoToken = true;
+
+				const json = localStorage.getItem(chaveUsuario);
+				const dadosUsuario = JSON.parse(json);
+				this.$store.commit("definirUsuario", null);
+
+				if (!dadosUsuario) {
+					this.validandoToken = false;
+					return this.$router.push({ path: "autenticar" });
+				}
+
+				const res = await axios.post(`${baseApi}validarToken`, dadosUsuario);
+
+				if (res.data) {
+					this.$store.commit("definirUsuario", dadosUsuario);
+				} else {
+					localStorage.removeItem(chaveUsuario);
+					return this.$router.push({ path: "autenticar" });
+				}
+				this.validandoToken = false;
+			},
+		},
+		created() {
+			this.validarToken();
+		},
+	};
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+	* {
+		font-family: "Lato", sans-serif;
+	}
+	body {
+		margin: 0;
+	}
 
-nav {
-  padding: 30px;
-}
+	#app {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
+		height: 100vh;
+		display: grid;
+		grid-template-rows: 60px 1fr 40px;
+		grid-template-columns: 300px 1fr;
+		grid-template-areas:
+			"header header"
+			"content content"
+			"footer footer";
+	}
 </style>
