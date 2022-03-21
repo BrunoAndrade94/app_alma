@@ -5,10 +5,6 @@
 				<b-tab title="Usuários" active>
 					<UsuariosAdmin />
 				</b-tab>
-				<b-tab title="Módulos">
-					<Modulos />
-				</b-tab>
-				<b-tab title="Telas" disabled />
 			</b-tabs>
 		</b-card>
 	</div>

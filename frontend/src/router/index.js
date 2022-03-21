@@ -4,32 +4,50 @@ import VueRouter from "vue-router";
 import { chaveUsuario } from "@/global";
 import Autenticar from "../pages/auth/Autenticar.vue";
 import Home from "../pages/home/Home.vue";
-import PaginasAdmin from "../components/admin/PaginasAdmin.vue";
+import Administracao from "../pages/admin/UsuariosAdmin.vue";
 import Produtos from "../pages/entity/Produtos.vue";
+import Especies from "../pages/entity/Especies.vue";
+import Unidades from "../pages/entity/Unidades.vue";
+import Modulos from "../pages/entity/Modulos.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
 	{
-		path: "/autenticar",
 		name: "autenticar",
+		path: "/autenticar",
 		component: Autenticar,
 	},
 	{
-		path: "/",
 		name: "home",
+		path: "/",
 		component: Home,
 	},
 	{
 		name: "paginasAdmin",
 		path: "/administracao",
-		component: PaginasAdmin,
+		component: Administracao,
 		meta: { requerAdmin: true },
 	},
 	{
 		path: "/produtos",
 		name: "produtos",
 		component: Produtos,
+	},
+	{
+		path: "/modulos",
+		name: "modulos",
+		component: Modulos,
+	},
+	{
+		path: "/unidades",
+		name: "unidades",
+		component: Unidades,
+	},
+	{
+		path: "/especies",
+		name: "especies",
+		component: Especies,
 	},
 ];
 

@@ -66,7 +66,7 @@
 </template>
 
 <script>
-	import { baseApi, chaveUsuario, mostrarErro, mostrarSucesso } from "@/global";
+	import g from "@/global";
 	import axios from "axios";
 	export default {
 		nome: "Autenticar",
@@ -87,26 +87,26 @@
 			// responsavel por fazer o login
 			login() {
 				axios
-					.post(`${baseApi}logar`, this.usuario)
+					.post(`${g.baseApi}logar`, this.usuario)
 					.then((res) => {
 						this.$store.commit("definirUsuario", res.data);
-						localStorage.setItem(chaveUsuario, JSON.stringify(res.data));
-						mostrarSucesso(`Boas-vindas ${this.usuario.usuario}`);
+						localStorage.setItem(g.chaveUsuario, JSON.stringify(res.data));
+						g.mostrarSucesso(`Boas-vindas ${this.usuario.usuario}`);
 						this.$router.push({ path: "/" });
 					})
-					.catch(mostrarErro);
+					.catch(g.mostrarErro);
 			},
 			cadastro() {
 				axios
-					.post(`${baseApi}cadastro`, this.usuario)
+					.post(`${g.baseApi}cadastro`, this.usuario)
 					.then(() => {
-						mostrarSucesso(
+						g.mostrarSucesso(
 							`Cadastro realizado com sucesso, ${this.usuario.nome}`
 						);
 						this.usuario = {};
 						this.mostrarLogin = false;
 					})
-					.catch(mostrarErro);
+					.catch(g.mostrarErro);
 			},
 		},
 	};

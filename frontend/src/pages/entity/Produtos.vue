@@ -1,144 +1,150 @@
 <template>
 	<div class="produtos">
-		<TituloPagina
-			icone="fa-solid fa-dolly"
-			titulo="Produtos"
-			sub="Aqui pode alterar as informações dos produtos"
-		/>
+		<b-card no-body>
+			<b-tabs id="formulario" pills card lazy>
+				<b-tab title="Produtos" active>
+					<TituloPagina
+						icone="fa-solid fa-dolly"
+						titulo="Produtos"
+						sub="Aqui pode alterar as informações dos produtos"
+					/>
 
-		<BotaoCrud
-			:desativarModoIncluir="modo === 'opcoes'"
-			:desativarModoOpcoes="modo === 'incluir'"
-			:clicarObter="obter"
-			:clicarLimpar="carregarProdutos"
-			:clicarIncluir="incluir"
-			:clicarAtualizar="atualizar"
-			:clicarRemover="remover"
-		/>
-		<b-form>
-			<b-row>
-				<b-col md="2" sm="2">
-					<b-form-group label="Código:" label-for="produto">
-						<b-form-input
-							v-model="idTela"
-							id="produto-id"
-							type="number"
-							min="0"
-							placeholder="#"
-						/>
-					</b-form-group>
-				</b-col>
-				<b-col md="10" sm="10">
-					<b-form-group label="* Produto:" label-for="produto">
-						<b-form-input
-							:autofocus="true"
-							required
-							id="produto-nome"
-							type="text"
-							v-model="produto.nome"
-							placeholder="Informe o nome do produto..."
-							@keydown.enter.native="clicou"
-						/>
-					</b-form-group>
-				</b-col>
-			</b-row>
-			<b-row>
-				<b-col class="d-none d-sm-block" md="2" sm="2">
-					<b-form-group label="Código:" label-for="especie">
-						<b-form-input
-							required
-							v-model="especie"
-							id="especie-id"
-							type="number"
-							min="0"
-							placeholder="#"
-						/>
-					</b-form-group>
-				</b-col>
-				<b-col md="10" sm="10">
-					<b-form-group label="* Espécie:" label-for="especie">
-						<b-form-select
-							required
-							id="especie-nome"
-							v-model="especie"
-							:options="especies"
-							value-field="id"
-							text-field="nome"
-						/>
-					</b-form-group>
-				</b-col>
-			</b-row>
-			<b-row>
-				<b-col class="d-none d-sm-block" md="2" sm="2">
-					<b-form-group label="Código:" label-for="unidade">
-						<b-form-input
-							required
-							v-model="unidade"
-							id="unidade-id"
-							type="number"
-							min="0"
-							placeholder="#"
-						/>
-					</b-form-group>
-				</b-col>
-				<div></div>
-				<b-col md="10" sm="10">
-					<b-form-group label="* Unidade:" label-for="unidade">
-						<b-form-select
-							required
-							id="unidade-nome"
-							v-model="unidade"
-							:options="unidades"
-							value-field="id"
-							text-field="nome"
-						>
-						</b-form-select>
-					</b-form-group>
-				</b-col>
-			</b-row>
-		</b-form>
-		<hr />
-		<b-table
-			stacked="sm"
-			show-empty
-			small
-			outlined
-			responsive
-			hover
-			striped
-			:current-page="paginaAtual"
-			:per-page="porPagina"
-			:items="produtos"
-			:fields="campos"
-		>
-			<template slot="acoes" slot-scope="data">
-				<b-button
-					variant="info"
-					@click="opcoesProduto(data.item, 'opcoes')"
-					v-show="modo === 'incluir'"
-					class="mr-1"
-				>
-					<i class="fa-solid fa-cogs" />
-				</b-button>
-				<b-button
-					variant="warning"
-					@click="carregarProdutos(data.item, 'incluir')"
-					v-show="modo === 'opcoes'"
-					class="mr-1"
-				>
-					<i class="fa-solid fa-cancel" />
-				</b-button>
-			</template>
-		</b-table>
-		<b-pagination
-			v-model="paginaAtual"
-			:total-rows="totalDeLinhas"
-			:per-page="porPagina"
-			align="fill"
-			class="my-0"
-			first-number
-			last-number
-		></b-pagination>
+					<BotaoCrud
+						:desativarModoIncluir="modo === 'opcoes'"
+						:desativarModoOpcoes="modo === 'incluir'"
+						:clicarObter="obter"
+						:clicarLimpar="carregarProdutos"
+						:clicarIncluir="incluir"
+						:clicarAtualizar="atualizar"
+						:clicarRemover="remover"
+					/>
+					<b-form>
+						<b-row>
+							<b-col md="2" sm="2">
+								<b-form-group label="Código:" label-for="produto">
+									<b-form-input
+										v-model="idTela"
+										id="produto-id"
+										type="number"
+										min="0"
+										placeholder="#"
+									/>
+								</b-form-group>
+							</b-col>
+							<b-col md="10" sm="10">
+								<b-form-group label="* Produto:" label-for="produto">
+									<b-form-input
+										:autofocus="true"
+										required
+										id="produto-nome"
+										type="text"
+										v-model="produto.nome"
+										placeholder="Informe o nome do produto..."
+										@keydown.enter.native="clicou"
+									/>
+								</b-form-group>
+							</b-col>
+						</b-row>
+						<b-row>
+							<b-col class="d-none d-sm-block" md="2" sm="2">
+								<b-form-group label="Código:" label-for="especie">
+									<b-form-input
+										required
+										v-model="especie"
+										id="especie-id"
+										type="number"
+										min="0"
+										placeholder="#"
+									/>
+								</b-form-group>
+							</b-col>
+							<b-col md="10" sm="10">
+								<b-form-group label="* Espécie:" label-for="especie">
+									<b-form-select
+										required
+										id="especie-nome"
+										v-model="especie"
+										:options="especies"
+										value-field="id"
+										text-field="nome"
+									/>
+								</b-form-group>
+							</b-col>
+						</b-row>
+						<b-row>
+							<b-col class="d-none d-sm-block" md="2" sm="2">
+								<b-form-group label="Código:" label-for="unidade">
+									<b-form-input
+										required
+										v-model="unidade"
+										id="unidade-id"
+										type="number"
+										min="0"
+										placeholder="#"
+									/>
+								</b-form-group>
+							</b-col>
+							<div></div>
+							<b-col md="10" sm="10">
+								<b-form-group label="* Unidade:" label-for="unidade">
+									<b-form-select
+										required
+										id="unidade-nome"
+										v-model="unidade"
+										:options="unidades"
+										value-field="id"
+										text-field="nome"
+									>
+									</b-form-select>
+								</b-form-group>
+							</b-col>
+						</b-row>
+					</b-form>
+					<hr />
+					<b-table
+						stacked="sm"
+						show-empty
+						small
+						outlined
+						responsive
+						hover
+						striped
+						:current-page="paginaAtual"
+						:per-page="porPagina"
+						:items="produtos"
+						:fields="campos"
+					>
+						<template slot="acoes" slot-scope="data">
+							<b-button
+								variant="info"
+								@click="opcoesProduto(data.item, 'opcoes')"
+								v-show="modo === 'incluir'"
+								class="mr-1"
+							>
+								<i class="fa-solid fa-cogs" />
+							</b-button>
+							<b-button
+								variant="warning"
+								@click="carregarProdutos(data.item, 'incluir')"
+								v-show="modo === 'opcoes'"
+								class="mr-1"
+							>
+								<i class="fa-solid fa-cancel" />
+							</b-button>
+						</template>
+					</b-table>
+					<b-pagination
+						v-model="paginaAtual"
+						:total-rows="totalDeLinhas"
+						:per-page="porPagina"
+						align="fill"
+						class="my-0"
+						first-number
+						last-number
+					></b-pagination>
+				</b-tab>
+			</b-tabs>
+		</b-card>
 	</div>
 </template>
 

@@ -1,113 +1,121 @@
 <template>
 	<div class="modulos">
-		<TituloPagina
-			icone="fa-solid fa-boxes-stacked"
-			titulo="Módulos"
-			sub="Aqui pode gerenciar as informações dos módulos"
-		/>
-		<BotaoCrud
-			:desativarModoIncluir="modo === 'opcoes'"
-			:desativarModoOpcoes="modo === 'incluir'"
-			:clicarObter="obter"
-			:clicarLimpar="carregarModulos"
-			:clicarIncluir="incluir"
-			:clicarAtualizar="atualizar"
-			:clicarRemover="remover"
-		/>
+		<b-card no-body>
+			<b-tabs id="formulario" pills card lazy>
+				<b-tab title="Módulos" active>
+					<TituloPagina
+						icone="fa-solid fa-boxes-stacked"
+						titulo="Módulos"
+						sub="Aqui pode gerenciar as informações dos módulos"
+					/>
+					<BotaoCrud
+						:desativarModoIncluir="modo === 'opcoes'"
+						:desativarModoOpcoes="modo === 'incluir'"
+						:clicarObter="obter"
+						:clicarLimpar="carregarModulos"
+						:clicarIncluir="incluir"
+						:clicarAtualizar="atualizar"
+						:clicarRemover="remover"
+					/>
 
-		<b-form>
-			<b-row>
-				<b-col md="2" sm="12">
-					<b-form-group label="Código:" label-for="modulo-id">
-						<b-form-input
-							id="modulo-id"
-							type="number"
-							v-model="modulo.id"
-							placeholder="#"
-							min="0"
-						></b-form-input>
-					</b-form-group>
-				</b-col>
-				<b-col md="8" sm="12">
-					<b-form-group label="* Módulo:" label-for="modulo-nome">
-						<b-form-input
-							@keydown.enter.native="clicou"
-							id="modulo-nome"
-							type="text"
-							required
-							v-model="modulo.nome"
-							placeholder="Informe o nome do módulo..."
-						></b-form-input>
-					</b-form-group>
-				</b-col>
-				<b-form-checkbox class="mt-3 ml-4 pl-3 pt-3"> Tela </b-form-checkbox>
-			</b-row>
-			<b-row>
-				<b-col class="d-none d-sm-block" md="2" sm="12">
-					<b-form-group label="Código:" label-for="maeId">
-						<b-form-input
-							required
-							v-model="modulo"
-							id="maeId"
-							type="number"
-							min="0"
-							placeholder="#"
-						/>
-					</b-form-group>
-				</b-col>
-				<b-col md="8" sm="12">
-					<b-form-group label="Módulo Mãe:" label-for="modulo-mae">
-						<b-form-select
-							id="modulo-mae"
-							v-model="modulo"
-							:options="modulos"
-							value-field="id"
-							text-field="nome"
-						>
-						</b-form-select>
-						<b-form-input
-							id="modulo-mae"
-							type="text"
-							v-model="moduloAnterior"
-							:readonly="true"
-						>
-						</b-form-input>
-					</b-form-group>
-				</b-col>
-			</b-row>
-			<b-row>
-				<b-col md="18" sm="12">
-					<b-form-group label="Caminho:" label-for="modulo-nome">
-						<b-form-input
-							id="modulo-nome"
-							:readonly="true"
-							type="text"
-							v-model="modulo.caminho"
-							placeholder="Caminho do módulo..."
-						></b-form-input>
-					</b-form-group>
-				</b-col>
-			</b-row>
-		</b-form>
-		<hr />
-		<b-table
-			stacked="sm"
-			:current-page="paginaAtual"
-			:per-page="porPagina"
-			:items="modulos"
-			:fields="campos"
-		>
-			<template slot="acoes" slot-scope="">
-				<b-btn> botao </b-btn>
-			</template>
-		</b-table>
-		<b-pagination
-			pills
-			v-model="paginaAtual"
-			:total-rows="totalDeLinhas"
-			:per-page="porPagina"
-			class="my-0"
-		></b-pagination>
+					<b-form>
+						<b-row>
+							<b-col md="2" sm="12">
+								<b-form-group label="Código:" label-for="modulo-id">
+									<b-form-input
+										id="modulo-id"
+										type="number"
+										v-model="modulo.id"
+										placeholder="#"
+										min="0"
+									></b-form-input>
+								</b-form-group>
+							</b-col>
+							<b-col md="8" sm="12">
+								<b-form-group label="* Módulo:" label-for="modulo-nome">
+									<b-form-input
+										@keydown.enter.native="clicou"
+										id="modulo-nome"
+										type="text"
+										required
+										v-model="modulo.nome"
+										placeholder="Informe o nome do módulo..."
+									></b-form-input>
+								</b-form-group>
+							</b-col>
+							<b-form-checkbox class="mt-3 ml-4 pl-3 pt-3">
+								Tela
+							</b-form-checkbox>
+						</b-row>
+						<b-row>
+							<b-col class="d-none d-sm-block" md="2" sm="12">
+								<b-form-group label="Código:" label-for="maeId">
+									<b-form-input
+										required
+										v-model="modulo"
+										id="maeId"
+										type="number"
+										min="0"
+										placeholder="#"
+									/>
+								</b-form-group>
+							</b-col>
+							<b-col md="8" sm="12">
+								<b-form-group label="Módulo Mãe:" label-for="modulo-mae">
+									<b-form-select
+										id="modulo-mae"
+										v-model="modulo"
+										:options="modulos"
+										value-field="id"
+										text-field="nome"
+									>
+									</b-form-select>
+									<b-form-input
+										id="modulo-mae"
+										type="text"
+										v-model="moduloAnterior"
+										:readonly="true"
+									>
+									</b-form-input>
+								</b-form-group>
+							</b-col>
+						</b-row>
+						<b-row>
+							<b-col md="18" sm="12">
+								<b-form-group label="Caminho:" label-for="modulo-nome">
+									<b-form-input
+										id="modulo-nome"
+										:readonly="true"
+										type="text"
+										v-model="modulo.caminho"
+										placeholder="Caminho do módulo..."
+									></b-form-input>
+								</b-form-group>
+							</b-col>
+						</b-row>
+					</b-form>
+					<hr />
+					<b-table
+						stacked="sm"
+						:current-page="paginaAtual"
+						:per-page="porPagina"
+						:items="modulos"
+						:fields="campos"
+					>
+						<template slot="acoes" slot-scope="">
+							<b-btn> botao </b-btn>
+						</template>
+					</b-table>
+					<b-pagination
+						pills
+						v-model="paginaAtual"
+						:total-rows="totalDeLinhas"
+						:per-page="porPagina"
+						class="my-0"
+					></b-pagination>
+				</b-tab>
+			</b-tabs>
+		</b-card>
 	</div>
 </template>
 

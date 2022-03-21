@@ -208,7 +208,7 @@ module.exports = (app) => {
 	const obterArvore = (req, res) => {
 		app.db(tabela.modulos)
 			.select(coluna.id, coluna.nome, coluna.idMae)
-			// .orderBy(coluna.nome)
+			.orderBy(coluna.nome)
 			.whereNull(coluna.removidoEm)
 			.then((modulos) => res.json(paraArvore(modulos)))
 			.catch((erro) => res.status(500).send(erro));

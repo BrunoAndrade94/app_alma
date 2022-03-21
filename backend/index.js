@@ -25,6 +25,6 @@ consign()
 	.then("./config/routes")
 	.into(app);
 
-app.listen(porta, () => {
+app.listen(porta, ip, () => {
 	console.log(`--IP:    ${ip}\n--PORTA: ${porta}`);
 });

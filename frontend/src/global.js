@@ -1,14 +1,16 @@
 import Vue from "vue";
 
-export const chaveUsuario = "__dbamv";
+export const chaveUsuario = "__alma";
 const porta = 3333;
 
 // IP DANTE
-// const ip = "192.168.252.47";
+const ip = "192.168.252.47";
 
 // ID CASA
 // const ip = "10.10.0.254";
-const ip = "localhost";
+
+// IP LOCALHOST
+// const ip = "localhost";
 
 export const baseApi = `http://${ip}:${porta}/`;
 

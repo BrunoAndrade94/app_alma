@@ -1,21 +1,22 @@
 <template>
 	<div id="app">
-		<Header />
-		<Loading v-if="validandoToken" />
+		<NavBar />
 		<Content />
 		<Footer />
 	</div>
 </template>
 
 <script>
+	import g from "@/global";
+	import axios from "axios";
 	import { mapState } from "vuex";
-	import { baseApi, chaveUsuario } from "@/global";
 	import Loading from "./components/pages/Loading.vue";
 	import Header from "./components/pages/Header.vue";
+	import NavBar from "./components/pages/NavBar.vue";
 	import Content from "./components/pages/Content.vue";
 	import Footer from "./components/pages/Footer.vue";
 	export default {
-		components: { Header, Content, Footer, Loading },
+		components: { Header, Content, Footer, Loading, NavBar },
 		computed: mapState(["usuario"]),
 		data: function () {
 			return {
@@ -26,22 +27,22 @@
 			async validarToken() {
 				this.validandoToken = true;
 
-				const json = localStorage.getItem(chaveUsuario);
+				const json = localStorage.getItem(g.chaveUsuario);
 				const dadosUsuario = JSON.parse(json);
 				this.$store.commit("definirUsuario", null);
 
 				if (!dadosUsuario) {
 					this.validandoToken = false;
-					return this.$router.push({ path: "autenticar" });
+					return this.$router.push({ path: "/autenticar" });
 				}
 
-				const res = await axios.post(`${baseApi}validarToken`, dadosUsuario);
+				const res = await axios.post(`${g.baseApi}validarToken`, dadosUsuario);
 
 				if (res.data) {
 					this.$store.commit("definirUsuario", dadosUsuario);
 				} else {
-					localStorage.removeItem(chaveUsuario);
-					return this.$router.push({ path: "autenticar" });
+					localStorage.removeItem(g.chaveUsuario);
+					return this.$router.push({ path: "/autenticar" });
 				}
 				this.validandoToken = false;
 			},
