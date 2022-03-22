@@ -43,7 +43,7 @@
 									></b-form-input>
 								</b-form-group>
 							</b-col>
-							<b-form-checkbox class="mt-3 ml-4 pl-3 pt-3">
+							<b-form-checkbox class="mt-3 ml-4 pl-3 pt-3" v-model="modoTela">
 								Tela
 							</b-form-checkbox>
 						</b-row>
@@ -97,14 +97,21 @@
 					<hr />
 					<b-table
 						stacked="sm"
+						show-empty
+						outlined
+						responsive
+						hover
+						small
+						striped
+						@row-selected="opcoesModulo"
+						selectable
+						select-mode="single"
+						selected-variant="danger"
 						:current-page="paginaAtual"
 						:per-page="porPagina"
 						:items="modulos"
 						:fields="campos"
 					>
-						<template slot="acoes" slot-scope="">
-							<b-btn> botao </b-btn>
-						</template>
 					</b-table>
 					<b-pagination
 						pills
@@ -120,20 +127,16 @@
 </template>
 
 <script>
-	import { mapState } from "vuex";
 	import axios from "axios";
 	import g from "@/global";
 	import TituloPagina from "../../components/others/TituloPagina.vue";
 	import BotaoCrud from "../../components/buttons/BotaoCrud.vue";
-	// import Paginacao from "../buttons/Paginacao.vue";
-	// import Opcoes from "../entradaSaida/Opcoes.vue";
-	// import IdDescricao from "../entradaSaida/IdDescricao.vue";
 	export default {
 		components: { TituloPagina, BotaoCrud },
-		computed: mapState(["paginaAtual"]),
 		data: function () {
 			return {
 				modo: "incluir",
+				modoTela: false,
 				modulo: {},
 				modulos: [],
 				moduloAnterior: "",
@@ -144,7 +147,7 @@
 					{ key: "id", label: "#", sortable: true },
 					{ key: "nome", label: "Módulos", sortable: true },
 					{
-						key: "maeId",
+						key: "idMae",
 						label: "#",
 						sortable: true,
 					},
@@ -155,7 +158,6 @@
 						sortable: true,
 						formatter: (valor) => (valor ? "Sim" : "Não"),
 					},
-					{ key: "acoes", label: "Opções" },
 				],
 			};
 		},
@@ -169,12 +171,9 @@
 					}
 				}
 			},
-			opcoesModulo(modulo, modo) {
-				this.obterModuloAnterior();
-				// console.log(this.moduloAnterior);
-				this.modulo = modulo;
-				this.modulos = [{ ...this.modulo }];
-				this.modo = modo;
+			opcoesModulo(evento) {
+				this.modulo = evento[0];
+				this.modo = "opcoes";
 			},
 			carregarModulos() {
 				this.limpar();
@@ -215,8 +214,11 @@
 					.catch(g.mostrarErro);
 			},
 			remover() {
+				console.log(this.modulo.caminho);
+				delete this.modulo.caminho;
+
 				axios
-					.delete(`${g.baseApi}modulos/${this.modulo.id}`, this.modulo)
+					.delete(`${g.baseApi}modulos/${this.modulo.id}`)
 					.then(() => {
 						g.mostrarSucesso(`Módulo: ${this.modulo.nome} removido com sucesso!`);
 						this.carregarModulos();
@@ -226,7 +228,8 @@
 			limpar(modo = "incluir") {
 				this.modo = modo;
 				this.modulo = {};
-				this.modulos = {};
+				this.modulos = [];
+				this.paginaAtual = 1;
 			},
 			obterModuloAnterior() {
 				axios

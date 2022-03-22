@@ -93,7 +93,7 @@ module.exports = (app) => {
 		.post(app.api.entidades.telas.modulo.incluir)
 		.get(app.api.entidades.telas.modulo.obter);
 
-	app.route("/modulo/:nome").get(app.api.entidades.telas.modulo.obterPorNome);
+	// app.route("/modulo/:nome").get(app.api.entidades.telas.modulo.obterPorNome);
 
 	app.route("/moduloAnterior/:id").get(
 		app.api.entidades.telas.modulo.obterModuloAnterior
@@ -110,18 +110,6 @@ module.exports = (app) => {
 	app.route("/modulos/:id")
 		// .all(app.config.admin.passaporte.autenticar())
 		.get(app.api.entidades.telas.modulo.obterPorId)
-		.delete(app.api.entidades.telas.modulo.remover)
-		.put(app.api.entidades.telas.modulo.atualizar);
-
-	// // ======================= FUTURAMENTE VAI SAIR, SEM USO PARA TELAS
-	// // ROTAS TELAS ===========
-	// //========================
-	// app.route("/telas")
-	// 	// .all(app.config.admin.passaporte.autenticar())
-	// 	.post(app.api.entidades.telas.tela.incluir)
-	// 	.get(app.api.entidades.telas.tela.obterJoin);
-
-	// app.route("/telas/:id")
-	// 	// .all(app.config.admin.passaporte.autenticar())
-	// 	.put(app.api.entidades.telas.tela.atualizar);
+		.put(app.api.entidades.telas.modulo.atualizar)
+		.delete(app.api.entidades.telas.modulo.remover);
 };

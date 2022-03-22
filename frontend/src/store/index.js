@@ -7,6 +7,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		usuario: null,
+		_v_model: null,
+		_total_rows: null,
+		_per_page: null,
 	},
 	getters: {},
 	mutations: {

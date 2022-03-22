@@ -1,6 +1,6 @@
 <template>
 	<div class="titulo-empresa">
-		<router-link v-if="usuario" to="/">
+		<router-link v-if="usuario" to="/home">
 			<i id="logo" class="fa-solid fa-cannabis" />
 		</router-link>
 		<i v-else id="logo" class="fa-solid fa-cannabis" />

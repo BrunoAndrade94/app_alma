@@ -3,26 +3,32 @@
 		<div class="botao-usuario">
 			<b-collapse id="nav-collapse" is-nav>
 				<b-navbar-nav>
-					<b-nav-item-dropdown class="usu" right>
+					<b-nav-item-dd right>
 						<template #button-content>
-							<i class="fa-solid fa-user" />
+							<i class="fa-solid fa-house-chimney-user" />
 							<span>{{ usuario.usuario }}</span>
 						</template>
-						<b-dropdown-item href="">Perfil</b-dropdown-item>
-						<b-dd-divider />
-						<b-dropdown-item to="/administracao">
-							Administração
-						</b-dropdown-item>
-						<b-dropdown-item to="/modulos"> Módulos </b-dropdown-item>
-						<b-dropdown-item to="/produtos"> Produtos </b-dropdown-item>
-						<b-dropdown-item to="/especies"> Espécies </b-dropdown-item>
-						<b-dropdown-item to="/unidades"> Unidades </b-dropdown-item>
-						<b-dd-divider />
-						<b-dd-item>
-							<i class="fa-solid fa-person-running" />
-							<href @click.prevent="deslogar"> Sair </href>
+						<b-dd-item to="/usuario">
+							<i class="fa-solid fa-user" />
+							<span>Perfil</span>
 						</b-dd-item>
-					</b-nav-item-dropdown>
+						<b-dd-divider />
+						<b-dd-item to="/administracao">
+							<i class="fa-solid fa-users-gear" />
+							<span> Administração </span>
+						</b-dd-item>
+						<b-dd-item to="/modulos">
+							<i class="fa-solid fa-boxes-stacked" />
+							<span> Módulos </span>
+						</b-dd-item>
+						<b-dd-divider />
+						<to @click.prevent="deslogar">
+							<b-dd-item>
+								<i class="fa-solid fa-person-running" />
+								<span>Sair</span>
+							</b-dd-item>
+						</to>
+					</b-nav-item-dd>
 				</b-navbar-nav>
 			</b-collapse>
 		</div>

@@ -5,7 +5,7 @@ Vue.use(Toasted, {
 	// theme: "bubble",
 	theme: "outline",
 	iconPack: "fontawesome",
-	position: "top-center",
+	// position: "top-center",
 	duration: 3000,
 });
 

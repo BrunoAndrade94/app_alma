@@ -7,7 +7,6 @@ module.exports = (app) => {
 	const incluir = async (req, res) => {
 		try {
 			const modulo = { ...req.body };
-			console.log(modulo);
 			v.existeOuErro(modulo.nome, n.nomeNaoInformado);
 
 			if (modulo.idMae !== undefined) {
@@ -145,6 +144,7 @@ module.exports = (app) => {
 
 	const remover = async (req, res) => {
 		try {
+			console.log(modulo);
 			v.numeroOuErro(modulo.id, n.idInvalido);
 			const modulo = {
 				id: req.params.id,
@@ -156,6 +156,7 @@ module.exports = (app) => {
 				.whereNull(coluna.removidoEm);
 			v.naoExisteOuErro(verificarSubModulos, n.moduloPossuiSubModulos);
 
+			// alterar módulo
 			const verificarTelaVinculada = await app
 				.db(tabela.telas)
 				.where({ idModulo: modulo.id })

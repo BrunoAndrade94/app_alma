@@ -92,7 +92,7 @@
 						this.$store.commit("definirUsuario", res.data);
 						localStorage.setItem(g.chaveUsuario, JSON.stringify(res.data));
 						g.mostrarSucesso(`Boas-vindas ${this.usuario.usuario}`);
-						this.$router.push({ path: "/" });
+						this.$router.push({ path: "/home" });
 					})
 					.catch(g.mostrarErro);
 			},

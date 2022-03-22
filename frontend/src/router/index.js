@@ -9,6 +9,7 @@ import Produtos from "../pages/entity/Produtos.vue";
 import Especies from "../pages/entity/Especies.vue";
 import Unidades from "../pages/entity/Unidades.vue";
 import Modulos from "../pages/entity/Modulos.vue";
+import Usuarios from "../pages/others/Usuarios.vue";
 
 Vue.use(VueRouter);
 
@@ -20,7 +21,7 @@ const routes = [
 	},
 	{
 		name: "home",
-		path: "/",
+		path: "/home",
 		component: Home,
 	},
 	{
@@ -30,23 +31,28 @@ const routes = [
 		meta: { requerAdmin: true },
 	},
 	{
-		path: "/produtos",
+		name: "usuario",
+		path: "/usuario",
+		component: Usuarios,
+	},
+	{
 		name: "produtos",
+		path: "/produtos",
 		component: Produtos,
 	},
 	{
-		path: "/modulos",
 		name: "modulos",
+		path: "/modulos",
 		component: Modulos,
 	},
 	{
-		path: "/unidades",
 		name: "unidades",
+		path: "/unidades",
 		component: Unidades,
 	},
 	{
-		path: "/especies",
 		name: "especies",
+		path: "/especies",
 		component: Especies,
 	},
 ];

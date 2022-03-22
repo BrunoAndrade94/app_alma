@@ -1,6 +1,6 @@
 <template>
 	<div class="header">
-		<b-navbar>
+		<b-navbar variant="info" sticky>
 			<Menu v-show="usuario" />
 			<b-navbar-brand class="title">
 				<TituloEmpresa />

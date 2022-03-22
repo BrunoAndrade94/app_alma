@@ -1,7 +1,7 @@
 <template>
 	<aside class="menu">
 		<b-button class="menu-button" v-b-toggle.sidebar-menu variant="none" block>
-			<i class="fa-solid fa-ellipsis-vertical" />
+			<i class="fa-solid fa-bars" />
 		</b-button>
 		<b-sidebar
 			lazy
@@ -16,18 +16,18 @@
 				Menu Alma
 				<i class="fa-solid fa-dna" />
 			</h3>
-			<b-col md="11" sm="2">
+			<b-col md="11" sm="11">
 				<b-form-input
 					type="text"
 					placeholder="Procurar..."
 					v-model="filtrarArvore"
-					class="ml-2 mr-1"
 				/>
 			</b-col>
 			<Arvore
 				:data="dadosDaArvore"
 				:filter="filtrarArvore"
 				:options="opcoesDaArvore"
+				@node:selected="moduloSelecionado"
 				ref="arvore"
 			/>
 			<template #footer="{}">
@@ -41,37 +41,36 @@
 
 <script>
 	import Arvore from "liquor-tree";
-	import { baseApi } from "@/global";
+	import g from "@/global";
 	import axios from "axios";
 
 	export default {
 		components: { Arvore },
 		data: function () {
 			return {
+				modulos: [],
 				filtrarArvore: "",
 				dadosDaArvore: this.obterDadosDaArvore(),
 				opcoesDaArvore: {
 					propertyNames: { text: "nome" },
 					filter: {
 						emptyText: "não encontrei nada por aqui..",
-						plainList: false,
 					},
 				},
 			};
 		},
-
 		methods: {
-			obterDadosDaArvore() {
-				return axios.get(`${baseApi}arvore/modulos`).then((res) => res.data);
+			async obterDadosDaArvore() {
+				return axios.get(`${g.baseApi}arvore/modulos`).then((res) => res.data);
 			},
 			moduloSelecionado(modulo) {
 				this.$router.push({
-					name: "",
-					params: { nome: modulo.nome },
+					path: `/${modulo.data.text}`,
 				});
 			},
 		},
 		mounted() {
+			this.obterDadosDaArvore();
 			this.$refs.tree.$on("node:selected", this.moduloSelecionado);
 		},
 	};

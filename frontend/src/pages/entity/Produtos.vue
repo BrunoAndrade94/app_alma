@@ -23,7 +23,7 @@
 							<b-col md="2" sm="2">
 								<b-form-group label="Código:" label-for="produto">
 									<b-form-input
-										v-model="idTela"
+										v-model="produto.id"
 										id="produto-id"
 										type="number"
 										min="0"
@@ -104,43 +104,27 @@
 					<b-table
 						stacked="sm"
 						show-empty
-						small
 						outlined
 						responsive
 						hover
+						small
 						striped
+						@row-selected="opcoesProduto"
+						selectable
+						select-mode="single"
+						selected-variant="danger"
 						:current-page="paginaAtual"
 						:per-page="porPagina"
 						:items="produtos"
 						:fields="campos"
 					>
-						<template slot="acoes" slot-scope="data">
-							<b-button
-								variant="info"
-								@click="opcoesProduto(data.item, 'opcoes')"
-								v-show="modo === 'incluir'"
-								class="mr-1"
-							>
-								<i class="fa-solid fa-cogs" />
-							</b-button>
-							<b-button
-								variant="warning"
-								@click="carregarProdutos(data.item, 'incluir')"
-								v-show="modo === 'opcoes'"
-								class="mr-1"
-							>
-								<i class="fa-solid fa-cancel" />
-							</b-button>
-						</template>
 					</b-table>
 					<b-pagination
+						pills
 						v-model="paginaAtual"
 						:total-rows="totalDeLinhas"
 						:per-page="porPagina"
-						align="fill"
 						class="my-0"
-						first-number
-						last-number
 					></b-pagination>
 				</b-tab>
 			</b-tabs>
@@ -152,11 +136,12 @@
 	import axios from "axios";
 	import v from "@/validarGlobal";
 	import g from "@/global";
+	import Paginacao from "../../components/buttons/Paginacao.vue";
 	import TituloPagina from "../../components/others/TituloPagina.vue";
 	import BotaoCrud from "../../components/buttons/BotaoCrud.vue";
 	export default {
 		nome: "Produtos",
-		components: { TituloPagina, BotaoCrud },
+		components: { TituloPagina, BotaoCrud, Paginacao },
 		data: function () {
 			return {
 				modo: "incluir",
@@ -190,7 +175,6 @@
 						label: "Fator",
 						sortable: true,
 					},
-					{ key: "acoes", label: "Opções" },
 				],
 			};
 		},
@@ -210,15 +194,14 @@
 				}
 			},
 			carregarDados() {
+				this.limpar();
 				this.carregarProdutos();
 				this.carregarEspecies();
 				this.carregarUnidades();
 			},
-			opcoesProduto(produto, modo) {
-				this.modo = modo;
-				this.produto = produto;
-
-				this.produtos = [this.produto];
+			opcoesProduto(evento) {
+				this.produto = evento[0];
+				this.modo = "opcoes";
 			},
 			carregarProduto(produto) {
 				this.produto = { ...produto };
@@ -281,7 +264,6 @@
 						g.mostrarSucesso(
 							`Produto: ${this.produto.nome} atualizado com sucesso!`
 						);
-						this.limpar();
 						this.carregarDados();
 					})
 					.catch(g.mostrarErro);
@@ -339,7 +321,6 @@
 		created() {},
 		mounted() {
 			this.carregarDados();
-			this.obterIdTela();
 		},
 	};
 </script>
